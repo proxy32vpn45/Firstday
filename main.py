@@ -9,7 +9,20 @@ import socket
 # =========================
 
 SOURCE_SUBS = [
-    # вставь свои ссылки сюда
+    "https://raw.githubusercontent.com/Temnuk/naabuzil/refs/heads/main/1week",
+    "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/main/WHITE-CIDR-RU-checked.txt",
+    "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/main/Vless-Reality-White-Lists-Rus-Mobile.txt",
+    "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/WHITE-CIDR-RU-all.txt",
+    "https://raw.githubusercontent.com/zieng2/wl/main/vless_universal.txt",
+    "https://github.com/terik21/HiddifySubs-VlessKeys/raw/refs/heads/main/RU_other",
+    "https://raw.githubusercontent.com/VansFenix/WildVF-/refs/heads/main/VansFenix%231",
+    "https://raw.githubusercontent.com/whoahaow/rjsxrd/refs/heads/main/githubmirror/bypass-unsecure/bypass-unsecure-all.txt",
+    "https://gist.githubusercontent.com/pidarasuebisov-afk/e220b44264242d1a97c0908aba091edd/raw/PKN%20cocnyL",
+    "https://raw.githubusercontent.com/flaafix/AetrisVPN-white-list-lite/refs/heads/main/AetrisVPN.txt",
+    "https://raw.githubusercontent.com/hiztin/VLESS-PO-GRIBI/main/deploy/subscriptions/1.txt",
+    "https://raw.githubusercontent.com/Kedoni/VPN-Sub/refs/heads/main/Hal.txt",
+    "https://vpn.zotus.ru/sub.php",
+    "https://raw.githubusercontent.com/ShadowException/VPN/refs/heads/main/configs/VPN-cat"
 ]
 
 SUPPORTED = (
