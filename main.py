@@ -3,7 +3,8 @@ import aiohttp
 import base64
 
 SOURCE_SUBS = [
-    
+    "https://happy-decoder.cc/p/https://sillyvpn.qwaqdev.ru/sub/79ddc110-12a0-445e-abd5-ee25d8351e34",
+    "
 ]
 
 SUPPORTED = (
