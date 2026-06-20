@@ -24,8 +24,14 @@ OUTPUT_FILE = "output.txt"
 async def fetch(session, url):
     try:
         async with session.get(url, timeout=20) as r:
-            return await r.text()
-    except:
+            if r.status != 200:
+                print(f"❌ {url} -> HTTP {r.status}")
+                return ""
+            text = await r.text()
+            print(f"✅ Loaded {url} ({len(text)} chars)")
+            return text
+    except Exception as e:
+        print(f"❌ Error {url}: {e}")
         return ""
 
 
@@ -38,14 +44,13 @@ async def fetch_all():
 def decode_if_needed(text):
     text = text.strip()
 
-    if "://" in text:
+    # если это уже конфиг
+    if text.startswith(SUPPORTED):
         return text
 
     try:
-        return base64.b64decode(text + "===").decode(
-            "utf-8",
-            errors="ignore"
-        )
+        decoded = base64.b64decode(text + "===")
+        return decoded.decode("utf-8", errors="ignore")
     except:
         return text
 
@@ -55,11 +60,7 @@ def extract_configs(text):
 
     for line in text.splitlines():
         line = line.strip()
-
-        if not line:
-            continue
-
-        if line.startswith(SUPPORTED):
+        if any(line.startswith(x) for x in SUPPORTED):
             result.append(line)
 
     return result
@@ -70,9 +71,11 @@ def deduplicate(configs):
 
 
 async def main():
-    print("Loading subscriptions...")
+    print("🚀 Loading subscriptions...")
 
     sources = await fetch_all()
+
+    print(f"📦 Sources received: {len([s for s in sources if s])}")
 
     configs = []
 
@@ -81,14 +84,17 @@ async def main():
             continue
 
         decoded = decode_if_needed(source)
-        configs.extend(extract_configs(decoded))
+        found = extract_configs(decoded)
+
+        print(f"🔎 Found {len(found)} configs in source")
+        configs.extend(found)
 
     configs = deduplicate(configs)
 
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         f.write("\n".join(configs))
 
-    print(f"Saved {len(configs)} configs -> {OUTPUT_FILE}")
+    print(f"💾 Saved {len(configs)} configs -> {OUTPUT_FILE}")
 
 
 if __name__ == "__main__":
