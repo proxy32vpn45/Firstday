@@ -1,4 +1,4 @@
-name: Run main.py every 30 minutes
+name: Update configs every 30 minutes
 
 on:
   schedule:
@@ -6,11 +6,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  run-script:
+  run:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -20,8 +20,13 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          pip install aiohttp
 
-      - name: Run main.py
+      - name: Run script
         run: |
           python main.py
+
+      - name: Show output (debug)
+        run: |
+          echo "=== output.txt ==="
+          cat output.txt || echo "output.txt not found"
