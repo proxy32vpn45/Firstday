@@ -8,81 +8,88 @@ SOURCE_SUBS = [
 ]
 
 SUPPORTED = (
-"vless://",
-"vmess://",
-"trojan://",
-"ss://",
-"ssr://",
-"hysteria://",
-"hysteria2://",
-"tuic://",
+    "vless://",
+    "vmess://",
+    "trojan://",
+    "ss://",
+    "ssr://",
+    "hysteria://",
+    "hysteria2://",
+    "tuic://",
 )
 
 OUTPUT_FILE = "output.txt"
 
+
 async def fetch(session, url):
     try:
-async with session.get(url, timeout=20) as r:
-return await r.text()
-except:
-return ""
+        async with session.get(url, timeout=20) as r:
+            return await r.text()
+    except:
+        return ""
+
 
 async def fetch_all():
-async with aiohttp.ClientSession() as session:
-tasks = [fetch(session, url) for url in SOURCE_SUBS]
-return await asyncio.gather(*tasks)
+    async with aiohttp.ClientSession() as session:
+        tasks = [fetch(session, url) for url in SOURCE_SUBS]
+        return await asyncio.gather(*tasks)
+
 
 def decode_if_needed(text):
-text = text.strip()
+    text = text.strip()
 
-if "://" in text:
-    return text
+    if "://" in text:
+        return text
 
     try:
-    return base64.b64decode(text + "===").decode(
-        "utf-8",
-        errors="ignore"
-    )
-except:
-    return text
+        return base64.b64decode(text + "===").decode(
+            "utf-8",
+            errors="ignore"
+        )
+    except:
+        return text
+
 
 def extract_configs(text):
-result = []
+    result = []
 
-for line in text.splitlines():
-    line = line.strip()
+    for line in text.splitlines():
+        line = line.strip()
 
-    if not line:
-        continue
+        if not line:
+            continue
 
-    if line.startswith(SUPPORTED):
-        result.append(line)
+        if line.startswith(SUPPORTED):
+            result.append(line)
 
-return result
+    return result
+
 
 def deduplicate(configs):
-return list(dict.fromkeys(configs))
+    return list(dict.fromkeys(configs))
+
 
 async def main():
-print("Loading subscriptions...")
+    print("Loading subscriptions...")
 
-sources = await fetch_all()
+    sources = await fetch_all()
 
-configs = []
+    configs = []
 
-for source in sources:
-    if not source:
-        continue
+    for source in sources:
+        if not source:
+            continue
 
-    decoded = decode_if_needed(source)
-    configs.extend(extract_configs(decoded))
+        decoded = decode_if_needed(source)
+        configs.extend(extract_configs(decoded))
 
-configs = deduplicate(configs)
+    configs = deduplicate(configs)
 
-with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-    f.write("\n".join(configs))
+    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+        f.write("\n".join(configs))
 
-print(f"Saved {len(configs)} configs -> {OUTPUT_FILE}")
+    print(f"Saved {len(configs)} configs -> {OUTPUT_FILE}")
 
-if name == "main":
-asyncio.run(main())
+
+if __name__ == "__main__":
+    asyncio.run(main())
