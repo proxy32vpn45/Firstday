@@ -21,7 +21,7 @@ SUPPORTED = (
 OUTPUT_FILE = "output.txt"
 
 async def fetch(session, url):
-try:
+    try:
 async with session.get(url, timeout=20) as r:
 return await r.text()
 except:
@@ -38,7 +38,7 @@ text = text.strip()
 if "://" in text:
     return text
 
-try:
+    try:
     return base64.b64decode(text + "===").decode(
         "utf-8",
         errors="ignore"
