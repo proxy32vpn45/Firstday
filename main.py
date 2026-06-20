@@ -4,7 +4,7 @@ import base64
 
 SOURCE_SUBS = [
     "https://happy-decoder.cc/p/https://sillyvpn.qwaqdev.ru/sub/79ddc110-12a0-445e-abd5-ee25d8351e34",
-
+    "https://happy-decoder.cc/p/hwid=e58a42fbb67e3da9/https://sub.xexvpn.ru/sub/YQI5CVN8OO/lte/"
 ]
 
 SUPPORTED = (
